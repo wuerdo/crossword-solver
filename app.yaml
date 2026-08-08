@@ -1,0 +1,11 @@
+name: my-vite-app
+static_sites:
+  - name: web
+    github:
+      repo: wuerdo/crossword-solver
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    output_dir: dist
+    routes:
+      - path: /

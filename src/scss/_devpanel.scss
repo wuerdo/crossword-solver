@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+// Permanent stage-jump toolbar, one icon per stage — the active stage's
+// icon is highlighted with an underline bar, similar to a tab strip.
+.devpanel {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: $bg-card-raised;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-pill;
+  // Side (horizontal) padding is 25% larger than the vertical padding.
+  padding: 6px 7.5px;
+  box-shadow: $shadow-card;
+}
+
+.devpanel__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: $radius-pill;
+  background: transparent;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: color 0.15s $ease, background-color 0.15s $ease;
+
+  &:hover {
+    color: $text-primary;
+    background: $bg-inset;
+  }
+
+  &.is-active {
+    color: $accent;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 2px;
+      border-radius: $radius-pill;
+      background: $accent;
+    }
+  }
+}

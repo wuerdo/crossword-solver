@@ -1,0 +1,99 @@
+@use 'variables' as *;
+
+// ---------------------------------------------------------------------------
+// Workspace layout — a single centered puzzle panel. No clues, no side
+// panel: this app never recognizes or shows clues.
+// ---------------------------------------------------------------------------
+.workspace {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.grid-panel {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+// ---------------------------------------------------------------------------
+// Crossword grid
+// ---------------------------------------------------------------------------
+.crossword {
+  display: grid;
+  gap: 2px;
+  background: $cell-border;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  padding: 2px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.cell {
+  position: relative;
+  background: $cell-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-mono;
+  font-weight: 700;
+  font-size: clamp(13px, 1.6vw, 15px);
+  color: $text-primary;
+  min-width: 0;
+  min-height: 0;
+
+  &.is-black {
+    background: $cell-black;
+  }
+}
+
+.cell--correct {
+  background: $cell-correct-bg;
+  color: $cell-correct-text;
+}
+
+.cell--wrong {
+  background: $cell-wrong-bg;
+  color: $cell-wrong-text;
+}
+
+.cell--missing {
+  background: $cell-missing-bg;
+  color: $cell-missing-text;
+}
+
+// ---------------------------------------------------------------------------
+// Letter reveal — used when the detecting stage's empty grid gives way to
+// the recognizing stage's OCR'd letters. Each cell fades/pops in with a
+// staggered `animation-delay` (set inline per-cell in templates.js) so the
+// letters appear to be read in one at a time rather than all snapping in
+// at once.
+// ---------------------------------------------------------------------------
+.cell--reveal {
+  animation: cell-reveal 0.35s $ease both;
+}
+
+@keyframes cell-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell--reveal {
+    animation: none;
+  }
+}

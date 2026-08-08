@@ -1,0 +1,237 @@
+@use 'variables' as *;
+
+.page {
+  min-height: 100vh;
+  padding: 56px 20px 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.page__inner {
+  width: 100%;
+  max-width: $max-width;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+// ---------------------------------------------------------------------------
+// Logo — each letter is a separate <span> with a randomly-picked torn-paper
+// sprite behind it (see logoAnimation.js, which sets the --sprite/--rot/
+// --scale/--rise/--skew/--fs-delta custom properties per letter). Colors
+// here are fixed rather than theme-driven since they're tied to the paper
+// sprite images themselves, which don't change with dark/light mode.
+// ---------------------------------------------------------------------------
+.logo {
+  --ink: #171310;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.logo span {
+  --sprite: none;
+  --rot: 0deg;
+  --scale: 1;
+  --rise: 0px;
+  --skew: 0deg;
+  --fs-delta: 0px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 1.3ch;
+  padding: 0.18em 0.06em 0.24em;
+
+  font-family: $font-display;
+  font-size: calc(clamp(1.5rem, 4.5vw, 2.6rem) + var(--fs-delta));
+  font-weight: 700;
+  font-style: normal;
+  color: var(--ink);
+
+  background-image: var(--sprite);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.16));
+
+  transform: translateY(var(--rise)) rotate(var(--rot)) skewX(var(--skew)) scale(var(--scale));
+  transition: transform 0.25s $ease;
+}
+
+.logo span:hover {
+  transform: translateY(calc(var(--rise) - 4px)) rotate(var(--rot)) skewX(var(--skew))
+    scale(calc(var(--scale) * 1.04));
+  z-index: 999 !important;
+}
+
+// Stacks the subtitle/date strips vertically, centered under the logo.
+.header__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+// Tape-strip subtitle/date.
+.strip {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: $font-body;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  // Desaturates the paper sprite's warm sepia cast to a neutral gray, so it
+  // matches the page's neutral (neither warm nor cool) background tone.
+  filter: grayscale(1) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.14));
+
+  // Smaller on small screens so the strips never read wider than the logo
+  // above them, which can itself shrink/wrap at these sizes.
+  @media (max-width: $breakpoint-sm) {
+    font-size: 0.72rem !important;
+  }
+}
+
+.strip--white {
+  background-image: url('/sprites/strip_white.png');
+  padding: 1.05em 2.2em 0.66em;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: #171310;
+}
+
+.strip--black {
+  background-image: url('/sprites/strip_black.png');
+  padding: 0.95em 2.2em 0.56em;
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+  color: #f2f0ec;
+}
+
+.card {
+  background: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: 22px;
+  transition: background-color 0.2s $ease, border-color 0.2s $ease, box-shadow 0.2s $ease;
+}
+
+// Applied only when the visible stage actually changed (see main.js) — not
+// on every re-render (theme toggle, the recognizing reveal timer, etc),
+// which just use the .card's own color transition above instead.
+.card--stage-enter {
+  animation: stage-enter 0.32s $ease both;
+}
+
+@keyframes stage-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card--stage-enter {
+    animation: none;
+  }
+}
+
+.card + .card {
+  margin-top: 20px;
+}
+
+.section-gap {
+  margin-top: 20px;
+  min-width: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Upload-screen layout: the upload card alongside an explainer sidebar.
+// Upload card gets 2/3 of the width above $breakpoint-md; below it, the
+// explainer stacks underneath the upload card (source order already puts
+// it second).
+// ---------------------------------------------------------------------------
+.upload-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: $gutter;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Plain white background, deliberately not styled as a card — no border,
+// no shadow.
+// Same surface color as the app's cards, so it fits the active theme —
+// white in light mode, dark in dark mode — instead of being hardcoded.
+.explainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: $bg-card;
+  border-radius: $radius-lg;
+  padding: 24px;
+  min-width: 0;
+}
+
+// Dark strip by default (matches the app's dark-theme default); switches to
+// the white strip in light theme, same pairing as the header's two strips.
+.explainer__label {
+  align-self: center;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url('/sprites/strip_black.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: grayscale(1) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.14));
+
+  padding: 0.95em 2.2em 0.56em;
+  font-family: $font-body;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #f2f0ec;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+}
+
+[data-theme='light'] .explainer__label {
+  background-image: url('/sprites/strip_white.png');
+  padding: 1.05em 2.2em 0.66em;
+  color: #171310;
+}
+
+.explainer__description {
+  margin: 0;
+  color: $text-secondary;
+  font-family: $font-body;
+  font-size: 15px;
+  line-height: 1.65;
+}

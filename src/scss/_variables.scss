@@ -1,0 +1,152 @@
+// ---------------------------------------------------------------------------
+// Design tokens
+//
+// Colors live as CSS custom properties on :root (dark, the default) and are
+// overridden under [data-theme='light'] — see themeToggle.js for how that
+// attribute gets toggled at runtime. Every $variable below is just an alias
+// for its custom property, so the rest of the SCSS files keep using the
+// familiar $accent / $text-primary syntax unchanged and still repaint live
+// when the theme switches.
+// ---------------------------------------------------------------------------
+
+// Fonts (not themed)
+$font-display: 'Oswald', 'Arial Narrow', sans-serif;
+$font-body: 'Cutive', 'Courier New', monospace;
+$font-mono: 'Iosevka Charon Mono', ui-monospace, 'Cascadia Code', monospace;
+
+:root {
+  color-scheme: dark;
+
+  --bg-page: #0a0a0f;
+  --bg-page-gradient: #17141f;
+  --bg-card: #131319;
+  --bg-card-raised: #17171f;
+  --bg-inset: #0e0e14;
+
+  --border-subtle: #26262f;
+  --border-strong: #34343f;
+
+  --text-primary: #f3f1f7;
+  --text-secondary: #9a99a8;
+  --text-muted: #65646f;
+
+  --accent: #7c6bf0;
+  --accent-hover: #6c59e8;
+  --accent-soft: rgba(124, 107, 240, 0.14);
+  --accent-border: rgba(124, 107, 240, 0.35);
+
+  --color-success: #3ecf6e;
+  --color-success-soft: rgba(62, 207, 110, 0.14);
+  --color-error: #e5544a;
+  --color-error-soft: rgba(229, 84, 74, 0.1);
+  --color-warning: #d9a63e;
+  --color-warning-soft: rgba(217, 166, 62, 0.14);
+
+  --cell-bg: #1b1b24;
+  --cell-black: #05050a;
+  --cell-border: #2c2c38;
+  --cell-correct-bg: #1e3d2b;
+  --cell-correct-text: #4fdb84;
+  --cell-wrong-bg: #402226;
+  --cell-wrong-text: #ef6a60;
+  --cell-missing-bg: #3c3320;
+  --cell-missing-text: #e6bb5c;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.02) inset, 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg-page: #f4f3f8;
+  --bg-page-gradient: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-raised: #f7f6fb;
+  --bg-inset: #edecf4;
+
+  --border-subtle: #e3e1ec;
+  --border-strong: #cfccdd;
+
+  --text-primary: #1c1b22;
+  --text-secondary: #5c5a68;
+  --text-muted: #8b899a;
+
+  --accent: #6c59e8;
+  --accent-hover: #5a48d6;
+  --accent-soft: rgba(108, 89, 232, 0.1);
+  --accent-border: rgba(108, 89, 232, 0.3);
+
+  --color-success: #1f9e52;
+  --color-success-soft: rgba(31, 158, 82, 0.12);
+  --color-error: #d1392f;
+  --color-error-soft: rgba(209, 57, 47, 0.1);
+  --color-warning: #b1811f;
+  --color-warning-soft: rgba(177, 129, 31, 0.14);
+
+  --cell-bg: #ffffff;
+  --cell-black: #1c1b22;
+  --cell-border: #dedcea;
+  --cell-correct-bg: #e1f5e8;
+  --cell-correct-text: #1f9e52;
+  --cell-wrong-bg: #fbe4e2;
+  --cell-wrong-text: #d1392f;
+  --cell-missing-bg: #faf1dc;
+  --cell-missing-text: #b1811f;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 30px rgba(20, 18, 30, 0.08);
+}
+
+// Aliases — keep every existing $variable usage across the SCSS files
+// working exactly as before.
+$bg-page: var(--bg-page);
+$bg-page-gradient: var(--bg-page-gradient);
+$bg-card: var(--bg-card);
+$bg-card-raised: var(--bg-card-raised);
+$bg-inset: var(--bg-inset);
+
+$border-subtle: var(--border-subtle);
+$border-strong: var(--border-strong);
+
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted: var(--text-muted);
+
+$accent: var(--accent);
+$accent-hover: var(--accent-hover);
+$accent-soft: var(--accent-soft);
+$accent-border: var(--accent-border);
+
+$color-success: var(--color-success);
+$color-success-soft: var(--color-success-soft);
+$color-error: var(--color-error);
+$color-error-soft: var(--color-error-soft);
+$color-warning: var(--color-warning);
+$color-warning-soft: var(--color-warning-soft);
+
+$cell-bg: var(--cell-bg);
+$cell-black: var(--cell-black);
+$cell-border: var(--cell-border);
+$cell-correct-bg: var(--cell-correct-bg);
+$cell-correct-text: var(--cell-correct-text);
+$cell-wrong-bg: var(--cell-wrong-bg);
+$cell-wrong-text: var(--cell-wrong-text);
+$cell-missing-bg: var(--cell-missing-bg);
+$cell-missing-text: var(--cell-missing-text);
+
+// Radii (not themed)
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$radius-pill: 999px;
+
+// Shadows
+$shadow-card: var(--shadow-card);
+
+// Layout
+$max-width: 1180px;
+$gutter: 24px;
+$breakpoint-sm: 480px;
+$breakpoint-md: 860px;
+
+// Transitions
+$ease: cubic-bezier(0.4, 0, 0.2, 1);
